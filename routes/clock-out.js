@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Labor = require("../Modal/labour");
+const Labor = require("../Modal/modal");
 const Attendance = require("../Modal/Attendance");
 function getISODateWithOffset() {
   return new Date().toISOString().replace("Z", "+00:00");

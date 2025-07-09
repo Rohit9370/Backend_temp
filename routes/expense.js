@@ -1,27 +1,25 @@
-//route that will handle post requests from 
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
-const Expense = require('../Modal/Expenses');
-const expenseController = require('../controllers/expense');
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs");
 
-// Multer setup for file uploads
+const expenseController = require('../controllers/expense');
+
+// Multer storage config (KEEP AS IS)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads");
+    cb(null, "uploads"); // Ensure this 'uploads' directory exists at your server's root
   },
   filename: (req, file, cb) => {
     cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
   },
 });
-
 const upload = multer({ storage });
 
-router.post('/add', upload.single('docUpload'), expenseController.addExpense);
+router.post('/process-bill', upload.single('docUpload'), expenseController.processBillForOCR);
 
+// <--- CRITICAL CHANGE: Use upload.array and match the field name 'bills'
+router.post('/add', upload.array('bills', 5), expenseController.addExpense); // Allow up to 5 bills
 router.get('/', expenseController.viewExpenses);
 
 module.exports = router;

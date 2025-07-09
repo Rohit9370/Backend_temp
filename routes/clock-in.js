@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Modal = require("../Modal/modal");
-const Labor = require("../Modal/labour");
+const Labor = require("../Modal/modal");
 const Attendance = require("../Modal/Attendance");
 
 //handle client clocks-in
